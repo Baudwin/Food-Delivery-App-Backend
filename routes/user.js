@@ -1,9 +1,13 @@
 const router = require('express').Router()
 // const { Teachers, post } = require('../models')
 const controller  = require('../controllers/UserController')
+const {validateToken} = require('../middleware/JWT')
 
 router.get("/login", controller.login)
-router.get("/register", controller.register)
+router.post("/register", controller.register)
+router.get("/users", validateToken, controller.getUsers)
+// router.get("/test", controller.test)
+
 
 // router.post('/insert', (req, res) => {
 //     const { name, address } = req.body

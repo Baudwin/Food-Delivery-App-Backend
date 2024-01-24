@@ -17,7 +17,12 @@ module.exports = (sequelize, DataTypes) => {
         email: {
             type: DataTypes.STRING,
             allowNull: false,
-            isEmail:true
+            validate:{
+                isEmail:{
+                    msg:"Please enter a valid email!"
+                }
+            }
+       
         },
         address: {
             type: DataTypes.STRING,
@@ -40,7 +45,6 @@ module.exports = (sequelize, DataTypes) => {
     //     }
     // })
     // }
-
     return Customer
 }
 
