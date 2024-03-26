@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const {login, authUser,register}  = require('../controllers/UserController')
-// const {validateToken, validateUser} = require('../middleware/JWT')
+const {validateToken, validateUser} = require('../middleware/JWT')
 
 
 router.post("/user-login", login)
