@@ -3,8 +3,8 @@ const app = express()
 const mongoose = require('mongoose')
 const port  = 3005
 
-const userRoute = require('../routes/user')
-const adminRoute = require('../routes/admin') 
+const userRoute = require('./routes/user')
+const adminRoute = require('./routes/admin') 
 
 const cors = require('cors')
 
@@ -27,10 +27,10 @@ app.use(adminRoute)
 
 
 
-// mongoose.connect(process.env.URI).then(()=>{
+mongoose.connect(process.env.URI).then(()=>{
     app.listen(port, ()=>{
         console.log(`db connected & server running on port ${port}`)
     })
-// }).catch(err=>{
-//     console.log(err);
-// })
+}).catch(err=>{
+    console.log(err);
+})
