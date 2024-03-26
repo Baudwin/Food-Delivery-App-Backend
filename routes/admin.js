@@ -9,7 +9,7 @@ router.get("/auth-admin",authAdmin)
 router.post("/create-category", addCategory)
 router.get("/get-categories", getCategories)
 
-router.post("/add-item", addItems)
+router.post("/add-item",upload.upload.single("img"), addItems)
 router.get("/get-items", getItems)
 router.get("/get-item/:id", getItem)
 router.delete("/delete-item/:it_id", deleteItem)
