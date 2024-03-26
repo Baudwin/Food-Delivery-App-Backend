@@ -4,6 +4,7 @@ const Category = require('../models/CategoryModel')
 const { createToken } = require('../middleware/JWT')
 const bcrypt = require('bcrypt')
 const UserModel = require('../models/UserModel')
+const uploadFunction = require("../supabaseConfig")
 
 module.exports = {
 
@@ -63,18 +64,26 @@ module.exports = {
 
 addItems: async(req,res)=>{
 const {itemName, price, category} = req.body
-img = req.file.path
+if (!itemName || !price || !category) {
+   return res.json("All fields must be provided")
+}
 try {
+const data = await uploadFunction(req.file.originalname, req.file.buffer, req.file.mimetype) 
+const imageURL = `${process.env.supabaseUrl}/storage/v1/object/public/${data.fullPath}`
+
 const newItem = await Item.create({
     itemName,
     price, 
-    img,
+    img:imageURL,
     category
     })  
-    res.status(200).json({msg:"Item added successfully"})
-} catch (err) {
-   res.json(err) 
+res.status(200).json({msg:"Item added successfully"})
+} catch (error) {
+   
+   res.json(error) 
 }
+
+
 },
 
 // GET All ITEMs

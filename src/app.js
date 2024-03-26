@@ -2,11 +2,13 @@ const express = require("express")
 const app = express()
 const mongoose = require('mongoose')
 const port  = 3005
+const cors = require('cors')
+
 
 const userRoute = require('../routes/user')
 const adminRoute = require('../routes/admin') 
 
-const cors = require('cors')
+
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
@@ -18,9 +20,6 @@ app.use(cors({
     credentials:true
 }))
 
-app.get("/", (req,res)=>{
-    res.send("I DID IT !! server ruuning on vercel...")
-})
 
 app.use(userRoute)
 app.use(adminRoute)
