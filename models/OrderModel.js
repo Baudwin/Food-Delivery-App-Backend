@@ -1,17 +1,13 @@
-module.exports = (sequelize, DataTypes) =>{
-    const Order = sequelize.define('Order',{
-        order_id: {
-            primaryKey: true,
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            autoIncrement: true,
-        },
-        location:{
-            type: DataTypes.STRING,
-            allowNull: false,
-        }
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-    });
+const orderSchema = new Schema({
+    userId : {
+        type: mongoose.Schema.Types.ObjectId, ref:"User"
+    },
+    date : {
+        type : Date
+    }
+})
 
-    return Order
-}
+module.exports = mongoose.model("Order", orderSchema)
