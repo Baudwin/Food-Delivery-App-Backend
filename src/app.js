@@ -18,6 +18,9 @@ app.use(cors({
     credentials:true
 }))
 
+app.get("/", (req,res)=>{
+    res.send("server ruuning on vercel")
+})
 
 app.use(userRoute)
 app.use(adminRoute)
