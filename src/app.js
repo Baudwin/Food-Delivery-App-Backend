@@ -19,7 +19,7 @@ app.use(cors({
 }))
 
 app.get("/", (req,res)=>{
-    res.send("server ruuning on vercel")
+    res.send("I DID IT !! server ruuning on vercel...")
 })
 
 app.use(userRoute)
