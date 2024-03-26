@@ -3,8 +3,8 @@ const app = express()
 const mongoose = require('mongoose')
 const port  = 3005
 
-const userRoute = require('./routes/user')
-const adminRoute = require('./routes/admin') 
+const userRoute = require('../routes/user')
+const adminRoute = require('../routes/admin') 
 
 const cors = require('cors')
 
