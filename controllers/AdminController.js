@@ -5,6 +5,7 @@ const { createToken } = require('../middleware/JWT')
 const bcrypt = require('bcrypt')
 const UserModel = require('../models/UserModel')
 const uploadFunction = require("../supabaseConfig")
+// const deleteFunction = require("../supabaseConfig")
 
 module.exports = {
 
@@ -54,19 +55,19 @@ module.exports = {
 
     getCategories: async(req, res) => {
         try {
-          const categories =  Category.find() 
+          const categories = await Category.find() 
            res.status(200).json(categories)
         } catch (err) {
            res.status(404).json({msg:err}) 
         }
     },
 
-
 addItems: async(req,res)=>{
-const {itemName, price, category} = req.body
+const {itemName, price, category} = req.body 
 if (!itemName || !price || !category) {
-   return res.json("All fields must be provided")
+   return res.status(400).json({msg:"All fields must be provided"})
 }
+
 try {
 const data = await uploadFunction(req.file.originalname, req.file.buffer, req.file.mimetype) 
 const imageURL = `${process.env.supabaseUrl}/storage/v1/object/public/${data.fullPath}`
@@ -74,14 +75,14 @@ const imageURL = `${process.env.supabaseUrl}/storage/v1/object/public/${data.ful
 const newItem = await Item.create({
     itemName,
     price, 
-    img:imageURL,
+    img:{url:imageURL, name:req.file.originalname},
     category
     })  
 res.status(200).json({msg:"Item added successfully"})
-} catch (error) {
-   
-   res.json(error) 
 }
+ catch (error) {
+   res.status(400).json({msg:error.message}) 
+} 
 
 
 },
@@ -115,7 +116,7 @@ getItem: async(req,res)=>{
 deleteItem: async(req,res)=>{
     const {id} = req.params
     try {
-      Item.findByIdAndDelete({_id:id})
+     const deletedItem = await Item.findByIdAndDelete({_id:id})
       res.status(200).json({msg:"Item deleted successfully!"})
     } catch (err) {
         res.json({msg:"An error occured"})

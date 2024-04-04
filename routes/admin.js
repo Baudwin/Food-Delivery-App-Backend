@@ -12,7 +12,7 @@ router.get("/get-categories", getCategories)
 router.post("/add-item",upload.single("img"), addItems)
 router.get("/get-items", getItems)
 router.get("/get-item/:id", getItem)
-router.delete("/delete-item/:it_id", deleteItem)
+router.delete("/delete-item/:id", deleteItem)
 
 
 

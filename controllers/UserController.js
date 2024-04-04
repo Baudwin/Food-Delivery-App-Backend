@@ -1,58 +1,120 @@
-// const { Customer, Cart, Item, CartItem } = require("../models")
 const bcrypt = require("bcrypt")
 const saltRounds = 10
 const { createToken } = require('../middleware/JWT')
+const User = require("../models/UserModel")
+const Order = require("../models/OrderModel")
+const validator = require('validator')
 
 module.exports = {
     // REGISTER USER
-    register: async (req, res) => {
-        const { username, email, password, phoneNumber, address } = req.body
-        const hash = await bcrypt.hash(password, saltRounds)
-        Customer.create({
-            username: username,
-            phoneNumber: phoneNumber,
-            email: email,
-            address: address,
-            password: hash
-        }).then(data => {
-            res.json("User Registered")
-        }).catch(err => {
-            res.json({ error: err.errors[0].message })
-        })
+    signup: async (req, res) => {
+        const { username, email, password, phoneNumber} = req.body
+        try {
+
+        if (!username.trim() || !email.trim() || !password.trim() || !phoneNumber.trim() ) {
+            throw Error("All fields must be provided!")
+        }
+
+        if (!validator.isEmail(email)) {
+            throw Error(`${email} is not a valid email`)
+        }
+
+        if (!validator.isMobilePhone(phoneNumber)) {
+            throw Error(`${phoneNumber} is not a valid phone number`)
+        }
+
+        if (!validator.isStrongPassword(password)) {
+            throw Error(`password must be atleast 8 characters
+             , must contain an uppercase letter, a lowercase letter,
+              a number and a special character or symbol `)
+        }
+
+        const user = await User.findOne({email:email})
+        if (user) {
+            throw Error(`User with email "${email}" already exists`)
+        }
+        // if (user.phoneNumber === phoneNumber) {
+        //     throw Error(`User with phone number "${phoneNumber}" already exists`)
+        // }
+
+       const hash = await bcrypt.hash(password, saltRounds)
+       const newUser = await User.create({
+                username: username,
+                phoneNumber: phoneNumber,
+                email: email,
+                password: hash
+            })
+            const accessToken = createToken(newUser)
+            
+            const userInfo = {
+                _id:newUser._id, 
+                phoneNumber: newUser.phoneNumber,
+                email: newUser.email,
+                token : accessToken
+            }
+            res.status(200).json({msg:"User Registered",userInfo})
+       
+        }
+         catch (error) {
+           res.status(400).json(error.message)            
+        }
     },
- 
-    authUser : (req,res)=>{
-        const info = req.data
-        res.json({info:info})
-    },
+
+
 
     // LOGIN USER 
     login: async (req, res) => {
         const { email, password } = req.body
         // check if user with info provided exists 
-        Customer.findOne({ where: { email: email } }).then(user => {
-            if (user) {
-            //    if the user exists compare the provided password with the hashed password in the database 
-                bcrypt.compare(password, user.password).then(match => {
-                    if (match) {
-                        // if there is a match asign  token to that user 
-                        const accessToken = createToken(user)
-                        res.cookie("token", accessToken, { httpOnly: true}) //, maxAge:'240000'
-                        res.status(200).json({ msg: "Login successful", token: accessToken, auth: true, info: user})
-                    } else {
-                        res.status(400).json({ msg: "Incorrect password" })
-                    }
-                }).catch(err => {
-                    res.send(err)
-                })
+        try {
+        if (!email || !password) {
+            throw Error( "All fields are required")
+        }
 
-            } else {
-                res.status(404).json({ msg: "User with email doesn't exist" })
-            }
-        }).catch(err => {
-            res.status(404).json({ msg: err })
-        })
+        const user = await User.findOne({email: email })
+
+        if (!user) {
+           throw Error(" email doesn't exist")
+        }
+        //if the user exists compare the provided password with the hashed password in the database 
+        const match = await bcrypt.compare(password, user.password)
+        console.log(match);
+        if (!match) {
+            throw Error("Incorrect Password")
+        }
+          // if there is a match asign  token to that user 
+         const accessToken = createToken(user)
+         const userInfo = {
+            _id:user._id, 
+            phoneNumber: user.phoneNumber,
+            email: user.email,
+            token : accessToken
+        }
+        res.status(200).json({ msg: "Login successful", userInfo})
+        }
+         catch (error) {
+            res.status(400).json(error.message)
+        }
     },
+
+
+    placeOrder : async(req,res)=>{
+        const {items, totalAmount, _id} = req.body
+        try {
+        const newOrder = await Order.create({
+        userId : _id, 
+        items, 
+        totalAmount
+       }) 
+       console.log(newOrder);
+        } catch (error) {
+           console.log(error); 
+        }
+    
+    }
+
+
+
 
 
 }

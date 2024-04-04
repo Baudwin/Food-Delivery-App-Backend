@@ -4,7 +4,7 @@ dotenv.config()
 
 // SIGN A USER WITH TOKEN and secret
 const createToken = (user)=>{
-const accessToken = jwt.sign({id:user._id, role:user.role}, process.env.secret)
+const accessToken = jwt.sign({id:user._id, role:user.role}, process.env.secret, {expiresIn: '3d'})
 return accessToken
 }
 
@@ -12,18 +12,17 @@ return accessToken
 const validateToken = (req,res,next)=>{
 const {authorization} = req.headers
 
-if (!authorization) {
-    res.status(400).json({message:"Token required"}) 
-}
-const token = authorization.split(' ')[1]
-
-    try {   
+    try {  
+    if (!authorization) {
+        throw Error("Token required") 
+    }
+    const token = authorization.split(' ')[1]   
     const data = jwt.verify(token, process.env.secret)
     req.data = data 
-    next()
-        
-    } catch (err) {
-        res.send(err)
+    next()       
+    } 
+    catch (error) {
+        res.json(error.message)
     }
 
 }
@@ -31,22 +30,31 @@ const token = authorization.split(' ')[1]
 // ADMIN AUTH 
 const validateAdmin = (req,res,next)=>{
     const role = req.data.role
-    if (role === "admin") {
-       next() 
-    }else{
-        res.status(401).json({message:"Only Admins are allowed to perform this action"})
+    try {
+    if (role != "admin") {
+        throw Error("Only Admins are allowed to perform this action")
     }
+    next() 
+    } 
+    catch (error) {
+       res.status(400).json(error.message) 
+    }
+   
 }
 
 
 // User AUTH 
 const validateUser = (req,res,next)=>{
     const role = req.data.role
-    if (role === "user") {
-       next() 
-    }else{
-        res.status(401).json({message:"Only Customers are allowed to perform this action"})
-    }
+    try {
+        if (role != "user") {
+            throw Error("Only Users are allowed to perform this action")
+        }
+        next() 
+        } 
+        catch (error) {
+           res.status(400).json(error.message) 
+        }
 }
 
 

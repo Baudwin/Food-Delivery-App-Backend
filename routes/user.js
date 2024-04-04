@@ -1,11 +1,11 @@
 const router = require('express').Router()
-const {login, authUser,register}  = require('../controllers/UserController')
+const {login, signup, placeOrder}  = require('../controllers/UserController')
 const {validateToken, validateUser} = require('../middleware/JWT')
 
 
 router.post("/user-login", login)
-router.get("/auth-user", authUser)
-router.post("/register", register)
+router.post("/signup", signup)
+router.post('/place-order', placeOrder)
 
 
 module.exports = router

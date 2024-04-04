@@ -9,16 +9,26 @@ const userSchema = new Schema({
     }, 
     email : {
         type: String,
-        required: true
+        required: true,
+        unique: true
     }, 
     phoneNumber : {
         type: Number,
-        required: true
+        required: true,
     }, 
     password : {
         type: String,
         required: true
-    }, 
+    },
+    role : {
+        type:String,
+        default: "user"
+
+    } , 
+    createdOn : {
+        type: Date,
+        default: Date.now
+    }
     
 })
 

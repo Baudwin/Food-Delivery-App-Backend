@@ -11,7 +11,8 @@ const itemSchema = new Schema({
         required: true
     },
     img: {
-       type:String,
+        url : String, 
+        name:String,
     }, 
     category : {
         type : mongoose.Schema.Types.ObjectId, ref:"Category",

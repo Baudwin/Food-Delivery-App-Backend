@@ -15,7 +15,7 @@ app.use(express.urlencoded({extended:true}))
 app.use("/public/uploads",express.static('public/uploads'))
 
 app.use(cors({
-    origin:['http://localhost:3004'],
+    origin:['http://localhost:3004' || 'https://food-delivery-one-psi.vercel.app'],
     methods:['POST','GET','PUT','DELETE'],
     credentials:true
 }))
@@ -32,4 +32,7 @@ mongoose.connect(process.env.URI).then(()=>{
     })
 }).catch(err=>{
     console.log(err);
+    app.listen(port, ()=>{
+        console.log(`server running on port ${port}`)
+    })
 })

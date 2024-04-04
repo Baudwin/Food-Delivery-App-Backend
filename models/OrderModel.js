@@ -3,10 +3,29 @@ const Schema = mongoose.Schema
 
 const orderSchema = new Schema({
     userId : {
-        type: mongoose.Schema.Types.ObjectId, ref:"User"
+        type: mongoose.Schema.Types.ObjectId, ref:"User",
+        reqiured: true
     },
-    date : {
-        type : Date
+
+    items : {
+        type:Array,
+        default : [], 
+        required : true
+    }, 
+
+    totalAmount : {
+        type : Number, 
+        required: true
+    }, 
+    status: {
+        type: String,
+        required:true, 
+        enum: ['pending', 'processing', 'delivered'],
+        default: "pending"
+    }, 
+    createdOn : {
+        type : Date, 
+        default : Date.now
     }
 })
 
