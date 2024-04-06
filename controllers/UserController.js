@@ -3,6 +3,7 @@ const saltRounds = 10
 const { createToken } = require('../middleware/JWT')
 const User = require("../models/UserModel")
 const Order = require("../models/OrderModel")
+const Address = require("../models/AddressModel")
 const validator = require('validator')
 
 module.exports = {
@@ -78,7 +79,6 @@ module.exports = {
         }
         //if the user exists compare the provided password with the hashed password in the database 
         const match = await bcrypt.compare(password, user.password)
-        console.log(match);
         if (!match) {
             throw Error("Incorrect Password")
         }
@@ -97,6 +97,21 @@ module.exports = {
         }
     },
 
+    addAddress : async(req,res)=>{
+        const {state, city, street, building, additionalInfo} = req.body
+        try {
+           if (!state.trim() || !city.trim() || !street.trim() || !building.trim() || !additionalInfo.trim() ) {
+            throw Error("All fields are required")
+             }
+           const newAddress = await Address.create({
+                state, city, street, building, additionalInfo
+            })
+            res.status(200).json({msg:"Address added successfully"})
+        } catch (error) {
+            res.status(400).json(error)
+        }
+        
+    }, 
 
     placeOrder : async(req,res)=>{
         const {items, totalAmount, _id} = req.body
