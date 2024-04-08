@@ -68,7 +68,7 @@ module.exports = {
         const { email, password } = req.body
         // check if user with info provided exists 
         try {
-        if (!email || !password) {
+        if (!email.trim() || !password.trim()) {
             throw Error( "All fields are required")
         }
 
@@ -99,34 +99,46 @@ module.exports = {
 
     addAddress : async(req,res)=>{
         const {state, city, street, building, additionalInfo} = req.body
+        const userID = req.data._id
+       
         try {
-           if (!state.trim() || !city.trim() || !street.trim() || !building.trim() || !additionalInfo.trim() ) {
+           if (!state.trim() || !city.trim() || !street.trim() || !building.trim() ) {
             throw Error("All fields are required")
              }
            const newAddress = await Address.create({
-                state, city, street, building, additionalInfo
+               userID, state, city, street, building, additionalInfo
             })
             res.status(200).json({msg:"Address added successfully"})
         } catch (error) {
-            res.status(400).json(error)
+            res.status(400).json(error.message)
+
+        }
+        
+    }, 
+
+    getAddress : async(req,res)=>{
+        try {
+            const addresses = await Address.find()
+            res.status(200).json(addresses)
+        } catch (error) {
+            
         }
         
     }, 
 
     placeOrder : async(req,res)=>{
         const {items, totalAmount, _id} = req.body
+      
         try {
         const newOrder = await Order.create({
         userId : _id, 
         items, 
         totalAmount
        }) 
-       console.log(newOrder);
         } catch (error) {
-           console.log(error); 
+        res.status(400).json(error.message)
         }
     
     }
-
 
 }

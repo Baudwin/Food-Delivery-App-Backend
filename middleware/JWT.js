@@ -4,17 +4,18 @@ dotenv.config()
 
 // SIGN A USER WITH TOKEN and secret
 const createToken = (user)=>{
-const accessToken = jwt.sign({id:user._id, role:user.role}, process.env.secret, {expiresIn: '3d'})
+const accessToken = jwt.sign({_id:user._id, role:user.role}, process.env.secret)
 return accessToken
 }
+
+
 
 // VERIFY THE TOKEN (MIDDLEWARE)
 const validateToken = (req,res,next)=>{
 const {authorization} = req.headers
-
     try {  
     if (!authorization) {
-        throw Error("Token required") 
+        throw Error("You are not authorized to perform this action. Login to continue") 
     }
     const token = authorization.split(' ')[1]   
     const data = jwt.verify(token, process.env.secret)
@@ -22,7 +23,8 @@ const {authorization} = req.headers
     next()       
     } 
     catch (error) {
-        res.json(error.message)
+        res.status(400).json(error.message)
+        console.log(error.message);
     }
 
 }
