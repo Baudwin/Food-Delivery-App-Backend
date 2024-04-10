@@ -1,9 +1,9 @@
 const Item = require('../models/ItemsModel')
 const User = require('../models/UserModel')
+const Order = require('../models/OrderModel')
 const Category = require('../models/CategoryModel')
 const { createToken } = require('../middleware/JWT')
 const bcrypt = require('bcrypt')
-const UserModel = require('../models/UserModel')
 const uploadFunction = require("../supabaseConfig")
 // const deleteFunction = require("../supabaseConfig")
 
@@ -123,10 +123,24 @@ deleteItem: async(req,res)=>{
     }
 },
 
+
+
+getOrders:async(req,res)=>{
+    try {
+       const allOrders = await Order.find() 
+       .populate('userId', 'username email phoneNumber')
+        .populate('address')
+       res.status(200).json(allOrders)
+    } catch (error) {
+        res.status(400).json(error.message)
+    }
+    
+}, 
+
     // GET ALL USERS 
     getUsers: async(req, res) => {
         try {
-         const users =  UserModel.find() 
+         const users =  User.find() 
            res.json(users)
         } catch (error) {
             res.status(404).json({msg:err})

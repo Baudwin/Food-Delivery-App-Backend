@@ -51,6 +51,7 @@ module.exports = {
                 _id:newUser._id, 
                 phoneNumber: newUser.phoneNumber,
                 email: newUser.email,
+                createdOn : newUser.createdOn, 
                 token : accessToken
             }
             res.status(200).json({msg:"User Registered",userInfo})
@@ -88,6 +89,8 @@ module.exports = {
             _id:user._id, 
             phoneNumber: user.phoneNumber,
             email: user.email,
+            createdOn : user.createdOn, 
+            username : user.username, 
             token : accessToken
         }
         res.status(200).json({ msg: "Login successful", userInfo})
@@ -117,28 +120,63 @@ module.exports = {
     }, 
 
     getAddress : async(req,res)=>{
+        const userID = req.data
+      
         try {
-            const addresses = await Address.find()
+            const addresses = await Address.find({userID})
+            .populate({
+                path: "userID", 
+                model:"User",
+                select: "username phoneNumber", 
+                as:"user"
+            })
+            .exec()
             res.status(200).json(addresses)
-        } catch (error) {
-            
+        } 
+        catch (error) {
+            res.status(404).json({msg:error.message})
+            console.log(error);
         }
         
     }, 
 
+
     placeOrder : async(req,res)=>{
-        const {items, totalAmount, _id} = req.body
+        const {items, totalAmount,paymentType, address} = req.body
+        const userId = req.data._id
       
         try {
         const newOrder = await Order.create({
-        userId : _id, 
+        userId, 
         items, 
-        totalAmount
+        totalAmount,
+        paymentType,
+        address
        }) 
+
+       res.status(200).json({msg:"Order placed successfully"})
         } catch (error) {
         res.status(400).json(error.message)
         }
     
+    }, 
+
+
+    getUserOrders:async(req,res)=>{
+        const userId = req.data._id
+        try {
+           const allOrders = await Order.find({userId}) 
+           .populate('userId', 'username email phoneNumber')
+           .populate('address')
+            .exec()
+           res.status(200).json(allOrders)
+        
+        } catch (error) {
+            res.status(400).json(error.message)
+        }
+        
     }
+
+
 
 }
