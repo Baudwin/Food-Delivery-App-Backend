@@ -6,6 +6,7 @@ const Order = require("../models/OrderModel")
 const Address = require("../models/AddressModel")
 const validator = require('validator')
 
+
 module.exports = {
     // REGISTER USER
     signup: async (req, res) => {
@@ -34,9 +35,6 @@ module.exports = {
         if (user) {
             throw Error(`User with email "${email}" already exists`)
         }
-        // if (user.phoneNumber === phoneNumber) {
-        //     throw Error(`User with phone number "${phoneNumber}" already exists`)
-        // }
 
        const hash = await bcrypt.hash(password, saltRounds)
        const newUser = await User.create({
@@ -100,9 +98,17 @@ module.exports = {
         }
     },
 
+    authSuccess: async(req, res)=>{
+     res.status(401).json({msg:"Authentication failed"})
+    }, 
+    
+    authFailure: async(req, res)=>{
+     res.status(401).json({msg:"Authentication failed"})
+    }, 
+
     addAddress : async(req,res)=>{
         const {state, city, street, building, additionalInfo} = req.body
-        const userID = req.data._id
+        const userID = req.user._id
        
         try {
            if (!state.trim() || !city.trim() || !street.trim() || !building.trim() ) {
@@ -120,8 +126,7 @@ module.exports = {
     }, 
 
     getAddress : async(req,res)=>{
-        const userID = req.data
-      
+        const userID = req.user._id
         try {
             const addresses = await Address.find({userID})
             .populate({
@@ -143,7 +148,7 @@ module.exports = {
 
     placeOrder : async(req,res)=>{
         const {items, totalAmount,paymentType, address} = req.body
-        const userId = req.data._id
+        const userId = req.user._id
       
         try {
         const newOrder = await Order.create({
@@ -163,7 +168,8 @@ module.exports = {
 
 
     getUserOrders:async(req,res)=>{
-        const userId = req.data._id
+        const userId = req.user._id
+        
         try {
            const allOrders = await Order.find({userId}) 
            .populate('userId', 'username email phoneNumber')
