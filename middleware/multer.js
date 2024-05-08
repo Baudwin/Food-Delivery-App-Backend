@@ -11,7 +11,7 @@ try {
 //       cb(null,file.fieldname + '-'+ Date.now() + path.extname(file.originalname))
 //    }
 // })
-const upload = multer({storage})
+const upload = multer()
 
 module.exports = upload    
 
