@@ -4,10 +4,23 @@ const Order = require('../models/OrderModel')
 const Category = require('../models/CategoryModel')
 const { createToken } = require('../middleware/JWT')
 const bcrypt = require('bcrypt')
-const uploadFunction = require("../supabaseConfig")
+// const uploadFunction = require("../supabaseConfig")
+const cloudinaryUploadd = require('../cloudinaryConfig')
 // const deleteFunction = require("../supabaseConfig")
 
 module.exports = {
+
+
+    testCloudinary : async(req,res)=>{
+        console.log(req.file.path)
+//    try {
+//    const uploadedResponse = await cloudinaryUploadd(req.file.path)
+//    res.send(uploadedResponse)
+//    } catch (error) {
+//     console.log(error)
+//    }
+    
+    },
 
     // LOGIN ADMIN 
     login: async (req, res) => {
@@ -63,26 +76,26 @@ module.exports = {
     },
 
 addItems: async(req,res)=>{
-const {itemName, price, category} = req.body 
-if (!itemName || !price || !category) {
-   return res.status(400).json({msg:"All fields must be provided"})
-}
+// const {itemName, price, category} = req.body 
+// if (!itemName || !price || !category) {
+//    return res.status(400).json({msg:"All fields must be provided"})
+// }
 
-try {
-const data = await uploadFunction(req.file.originalname, req.file.buffer, req.file.mimetype) 
-const imageURL = `${process.env.supabaseUrl}/storage/v1/object/public/${data.fullPath}`
+// try {
+// const data = await uploadFunction(req.file.originalname, req.file.buffer, req.file.mimetype) 
+// const imageURL = `${process.env.supabaseUrl}/storage/v1/object/public/${data.fullPath}`
 
-const newItem = await Item.create({
-    itemName,
-    price, 
-    img:{url:imageURL, name:req.file.originalname},
-    category
-    })  
-res.status(200).json({msg:"Item added successfully"})
-}
- catch (error) {
-   res.status(400).json({msg:error.message}) 
-} 
+// const newItem = await Item.create({
+//     itemName,
+//     price, 
+//     img:{url:imageURL, name:req.file.originalname},
+//     category
+//     })  
+// res.status(200).json({msg:"Item added successfully"})
+// }
+//  catch (error) {
+//    res.status(400).json({msg:error.message}) 
+// } 
 
 
 },

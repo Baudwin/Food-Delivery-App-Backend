@@ -21,6 +21,7 @@ passport.use( new JwtStrategy(options, async(jwt_payload, done)=>{
         return done(null, false)
      }
     } catch (error) {
+     
        return done(error, false)
     }
 }))

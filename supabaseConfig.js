@@ -19,13 +19,5 @@ const uploadFunction = async(fileName, fileBuffer, mimetype)=>{
       }
 }
 
-// module.exports =  deleteFunction = async(imgurl)=>{
-// const { data, error } = await storage.from('itemimages').remove([imgurl])
-// if (error) {
-//     throw error
-// }else{
-//     return data
-// }
-// }
 
 module.exports = uploadFunction

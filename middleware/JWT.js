@@ -4,7 +4,7 @@ dotenv.config()
 
 // SIGN A USER WITH TOKEN and secret
 const createToken = (user)=>{
-const accessToken = jwt.sign({_id:user._id}, process.env.secret)
+const accessToken = jwt.sign({_id:user._id, email:user.email}, process.env.secret)
 return accessToken
 }
 

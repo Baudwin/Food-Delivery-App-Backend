@@ -47,6 +47,7 @@ module.exports = {
             
             const userInfo = {
                 _id:newUser._id, 
+                username: user.username, 
                 phoneNumber: newUser.phoneNumber,
                 email: newUser.email,
                 createdOn : newUser.createdOn, 
@@ -84,7 +85,8 @@ module.exports = {
           // if there is a match asign  token to that user 
          const accessToken = createToken(user)
          const userInfo = {
-            _id:user._id, 
+            _id:user._id,
+            username: user.username,  
             phoneNumber: user.phoneNumber,
             email: user.email,
             createdOn : user.createdOn, 
@@ -98,13 +100,30 @@ module.exports = {
         }
     },
 
-    authSuccess: async(req, res)=>{
-     res.status(401).json({msg:"Authentication failed"})
+
+    oauthSuccess: async(req, res)=>{
+        const {_id} = req.user
+      
+        try {
+          const user = await User.findOne({_id}) 
+          const userData = { 
+            _id:user._id, 
+            username : user.username,
+            email : user.email,
+            createdOn : user.createdOn, 
+        }
+         res.status(200).json({msg:"Authentication success", userData})
+        } catch (error) {
+            res.status(401).json({msg:error.message})
+        }
+    
     }, 
     
     authFailure: async(req, res)=>{
      res.status(401).json({msg:"Authentication failed"})
     }, 
+
+
 
     addAddress : async(req,res)=>{
         const {state, city, street, building, additionalInfo} = req.body
