@@ -11,12 +11,12 @@ cloudinary.config({
   const cloudinaryUploadd = async(file)=>{
      try {
     const uploadedResponse = await cloudinary.uploader.upload(file, {
-        upload_preset: 'product_preset' // Add your upload preset
+        upload_preset: 'product_preset' 
     });
     return uploadedResponse
 } catch (error) {
     console.error('Upload Error:', error);
-    // res.status(500).json({ error: 'Upload failed' });
+  
 } 
   }
 

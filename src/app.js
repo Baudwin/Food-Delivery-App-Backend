@@ -27,6 +27,10 @@ app.use(userRoute)
 app.use(adminRoute)
 
 
+app.get("/", (req,res)=>{
+    res.send("holaa")
+})
+
 
 mongoose.connect(process.env.URI).then(()=>{
     app.listen(port, ()=>{
