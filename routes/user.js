@@ -1,43 +1,39 @@
-const passport = require('passport')
+// const passport = require('passport')
 require('../Strategies/GoogleStrategy')
 const router = require('express').Router()
 const {login, signup, placeOrder, addAddress, getAddress, getUserOrders, oauthSuccess}  = require('../controllers/UserController')
 require('../Strategies/JwtStragegy')
 const authenticateJWT = require('../middleware/authenticateJwt')
-const { createToken } = require('../middleware/JWT')
+// const { createToken } = require('../middleware/JWT')
 
 
 
 router.post("/user-login", login)
 router.post("/signup", signup)
 
-router.get('/auth/google', passport.authenticate('google', { scope: ['email','profile'] })  );
+// router.get('/auth/google', passport.authenticate('google', { scope: ['email','profile'] })  );
 
-router.get('/auth/google/callback', passport.authenticate('google',{session:false}), (req,res)=>{
-    const token = createToken(req.user)
-    console.log(token)
-    // res.setHeader('x-auth-token', token);
-    // res.setHeader('Content-Type', 'application/json');
-    // res.redirect("http://localhost:3004")
-    res.cookie('x-auth-cookie', token)
-    res.json({token})
+// router.get('/auth/google/callback', passport.authenticate('google',{session:false}), (req,res)=>{
+//     const token = createToken(req.user)
+//     console.log(token)
+//     res.setHeader('x-auth-token', token);
+//     res.setHeader('Content-Type', 'application/json');
+//     res.redirect("http://localhost:3004")
+//     res.cookie('x-auth-cookie', token)
+//     res.json({token})
     
-})
+// })
 
-router.get('/auth/test', (req, res) => {
-    // Set a custom header
-    // res.setHeader('Custom-Header', 'Hello this is the header');
-    // res.setHeader('Acess-Control-Expose-Headers', 'Custom-Header');
-    // Send response
-    res.cookie('x-auth-cookie', "test-cookie")
-    res.status(200).json({redirectUrl: "/profile"});
+// router.get('/auth/test', (req, res) => {
+
+//     res.cookie('x-auth-cookie', "test-cookie")
+//     res.status(200).json({redirectUrl: "/profile"});
    
-});
+// });
 
-router.get('/oauth/success',authenticateJWT, oauthSuccess)
+// router.get('/oauth/success',authenticateJWT, oauthSuccess)
 
-// successRedirect : 'http://localhost:3004/', 
-// failureRedirect: "/auth/failed"
+
 router.post('/add-address',authenticateJWT, addAddress)
 router.get('/get-address',authenticateJWT,  getAddress)
 router.post('/place-order',authenticateJWT,  placeOrder)
