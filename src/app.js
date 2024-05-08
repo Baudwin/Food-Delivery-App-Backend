@@ -15,11 +15,11 @@ app.use(express.urlencoded({extended:true}))
 app.use("/public/uploads",express.static('public/uploads'))
 
 app.use(cors(
-//     {
-//     origin:[ 'http://localhost:3004'],
-//     methods:['POST','GET','PUT','DELETE'],
-//     credentials:true
-// }
+    {
+    origin:[ 'http://localhost:3004'],
+    methods:['POST','GET','PUT','DELETE'],
+    credentials:true
+}
 ))
 // 'https://food-delivery-one-psi.vercel.app'||
 
