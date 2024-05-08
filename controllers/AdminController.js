@@ -5,14 +5,14 @@ const Category = require('../models/CategoryModel')
 const { createToken } = require('../middleware/JWT')
 const bcrypt = require('bcrypt')
 // const uploadFunction = require("../supabaseConfig")
-const cloudinaryUploadd = require('../cloudinaryConfig')
+// const cloudinaryUploadd = require('../cloudinaryConfig')
 // const deleteFunction = require("../supabaseConfig")
 
 module.exports = {
 
 
     testCloudinary : async(req,res)=>{
-        console.log(req.file.path)
+        // console.log(req.file.path)
 //    try {
 //    const uploadedResponse = await cloudinaryUploadd(req.file.path)
 //    res.send(uploadedResponse)
