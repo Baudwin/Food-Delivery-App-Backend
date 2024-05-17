@@ -1,7 +1,7 @@
 const passport = require('passport')
 const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJwt = require('passport-jwt').ExtractJwt
-const dotenv = require('dotenv')
+const dotenv = require('dotenv').config()
 const User = require("../models/UserModel")
 
 const options = {

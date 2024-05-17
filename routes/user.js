@@ -1,15 +1,30 @@
 const router = require('express').Router()
 const {login, signup, placeOrder, addAddress, getAddress, getUserOrders, oauthSuccess}  = require('../controllers/UserController')
-require('../Strategies/JwtStragegy')
-const authenticateJWT = require('../middleware/authenticateJwt')
-// const { createToken } = require('../middleware/JWT')
 const passport = require('passport')
-// require('../Strategies/GoogleStrategy')
+require('../Strategies/JwtStragegy')
+require('../Strategies/GoogleStrategy')
+
+const authenticateJWT = require('../middleware/authenticateJwt')
+const { createToken } = require('../middleware/JWT')
+
 
 
 router.post("/user-login", login)
 router.post("/signup", signup)
 
+router.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+
+router.get('/auth/google/callback', passport.authenticate('google', { session: false}),
+  (req, res)=> {
+
+const token = createToken(req.user)
+    res.cookie('x-auth-cookie', token);
+    res.redirect('http://localhost:3004/profile');
+  });
+ 
+  router.get("/user",authenticateJWT, oauthSuccess)
 
 router.post('/add-address',authenticateJWT, addAddress)
 router.get('/get-address',authenticateJWT,  getAddress)
@@ -25,39 +40,9 @@ module.exports = router
 
 
    
-        // googlerouter.get('/auth/googleauth', passport.authenticate('google', 
-        // { scope: ['profile', 'email', 'https://www.googleapis.com/auth/userinfo.profile'], session: false }));
 
      
-        // googlerouter.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login', session: false }),
-        // async (req, res) => {
-        // try {
-        // const { email } = req.user;
-        // let user = await User.findOne({ email });
 
-        // if (!user) {
-        // return res.status(404).json({ error: 'User not found' });
-        // }
-        // const data = {
-        // user: {
-        // id: user.id,
-        // verified: user.verified,
-        // email: user.email,
-        // },
-
-        // };
-        // const token = jwt.sign(data, jwtSecret);
-
-        // res.cookie('x-auth-cookie', token);
-
-        // res.redirect(${clientUrl}/dashboard);
-        // } catch (error) {
-
-        // console.error('Error in Google OAuth callback:', error);
-        // res.status(500).json({ error: 'Internal Server Error' });
-        // }
-        // }
-        // );
 
 
 

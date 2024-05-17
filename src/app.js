@@ -3,6 +3,7 @@ const app = express()
 const mongoose = require('mongoose')
 const port  = 3005
 const cors = require('cors')
+require("dotenv").config()
 
 
 const userRoute = require('../routes/user')
@@ -16,7 +17,7 @@ app.use("/public/uploads",express.static('public/uploads'))
 
 app.use(cors(
     {
-    origin:[ 'http://localhost:3004'],
+    origin:[ 'https://food-delivery-one-psi.vercel.app/'],
     methods:['POST','GET','PUT','DELETE'],
     credentials:true
 }
@@ -28,7 +29,7 @@ app.use(adminRoute)
 
 
 app.get("/", (req,res)=>{
-    res.send("holaa")
+    res.send("holaa holla ooh")
 })
 
 
@@ -38,7 +39,7 @@ mongoose.connect(process.env.URI).then(()=>{
     })
 }).catch(err=>{
     console.log(err);
-    app.listen(port, ()=>{
-        console.log(`server running on port ${port}`)
-    })
+    // app.listen(port, ()=>{
+    //     console.log(`server running on port ${port}`)
+    // })
 })

@@ -51,9 +51,8 @@ module.exports = {
                 phoneNumber: newUser.phoneNumber,
                 email: newUser.email,
                 createdOn : newUser.createdOn, 
-                token : accessToken
             }
-            res.status(200).json({msg:"User Registered",userInfo})
+            res.status(200).json({msg:"User Registered",userInfo, token})
        
         }
          catch (error) {
@@ -91,9 +90,8 @@ module.exports = {
             email: user.email,
             createdOn : user.createdOn, 
             username : user.username, 
-            token : accessToken
         }
-        res.status(200).json({ msg: "Login successful", userInfo})
+        res.status(200).json({ msg: "Login successful", userInfo, token})
         }
          catch (error) {
             res.status(400).json(error.message)
@@ -103,7 +101,6 @@ module.exports = {
 
     oauthSuccess: async(req, res)=>{
         const {_id} = req.user
-      
         try {
           const user = await User.findOne({_id}) 
           const userData = { 

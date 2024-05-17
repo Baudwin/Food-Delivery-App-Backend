@@ -15,7 +15,4 @@ router.get("/get-item/:id", getItem)
 router.delete("/delete-item/:id", deleteItem)
 router.get('/get-orders', getOrders)
 
-router.post("/test-cloud",upload.single("item"), testCloudinary)
-
-
 module.exports = router
