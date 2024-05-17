@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {authAdmin, addCategory, getCategories, addItems,getItem,deleteItem, getItems, login, getOrders, testCloudinary}  = require('../controllers/AdminController')
+const {authAdmin, addCategory, getCategories, addItems,getItem,deleteItem, getItems, login, getOrders}  = require('../controllers/AdminController')
 // const {validateToken,  validateAdmin} = require('../middleware/JWT')
 const upload = require('../middleware/multer')
 

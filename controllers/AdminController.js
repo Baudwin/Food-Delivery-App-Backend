@@ -4,7 +4,7 @@ const Order = require('../models/OrderModel')
 const Category = require('../models/CategoryModel')
 const { createToken } = require('../middleware/JWT')
 const bcrypt = require('bcrypt')
-const { cloudinaryUpload } = require("../cloudinaryConfig")
+const cloudinaryUpload = require("../cloudinaryConfig")
 
 module.exports = {
 

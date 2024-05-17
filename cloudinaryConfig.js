@@ -8,7 +8,7 @@ cloudinary.config({
     api_secret: process.env.API_SECRET
   });
 
-  export const cloudinaryUpload = async(file)=>{
+   const cloudinaryUpload = async(file)=>{
      try {
     const uploadedResponse = await cloudinary.uploader.upload(file, {
         upload_preset: 'product_preset' 
@@ -20,3 +20,4 @@ cloudinary.config({
 } 
   }
 
+module.exports = cloudinaryUpload
