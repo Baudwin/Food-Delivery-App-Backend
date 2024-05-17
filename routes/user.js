@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const {login, signup, placeOrder, addAddress, getAddress, getUserOrders, oauthSuccess}  = require('../controllers/UserController')
 // const passport = require('passport')
-require('../Strategies/JwtStrategy')
+// require('../Strategies/JwtStrategy')
 // require('../Strategies/GoogleStrategy')
 
 const authenticateJWT = require('../middleware/authenticateJwt')
