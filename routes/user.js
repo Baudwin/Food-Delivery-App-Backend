@@ -13,17 +13,17 @@ router.post("/signup", signup)
 
 
 
-router.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] }));
+// router.get('/auth/google',
+//   passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 
-router.get('/auth/google/callback', passport.authenticate('google', { session: false}),
-  (req, res)=> {
+// router.get('/auth/google/callback', passport.authenticate('google', { session: false}),
+//   (req, res)=> {
 
-const token = createToken(req.user)
-    res.cookie('x-auth-cookie', token);
-    res.redirect('https://food-delivery-one-psi.vercel.app/profile');
-  });
+// const token = createToken(req.user)
+//     res.cookie('x-auth-cookie', token);
+//     res.redirect('https://food-delivery-one-psi.vercel.app/profile');
+//   });
 
 
  
