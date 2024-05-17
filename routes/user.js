@@ -1,12 +1,11 @@
 const router = require('express').Router()
 const {login, signup, placeOrder, addAddress, getAddress, getUserOrders, oauthSuccess}  = require('../controllers/UserController')
 const passport = require('passport')
-require('../Strategies/JwtStragegy')
+require('../Strategies/JwtStrategy')
 require('../Strategies/GoogleStrategy')
 
 const authenticateJWT = require('../middleware/authenticateJwt')
 const { createToken } = require('../middleware/JWT')
-
 
 
 router.post("/user-login", login)
