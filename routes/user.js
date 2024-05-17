@@ -1,16 +1,16 @@
 const router = require('express').Router()
-const {login, signup, placeOrder, addAddress, getAddress, getUserOrders, oauthSuccess}  = require('../controllers/UserController')
-const passport = require('passport')
-require('../Strategies/JwtStragegy')
-require('../Strategies/GoogleStrategy')
+// const {login, signup, placeOrder, addAddress, getAddress, getUserOrders, oauthSuccess}  = require('../controllers/UserController')
+// const passport = require('passport')
+// require('../Strategies/JwtStragegy')
+// require('../Strategies/GoogleStrategy')
 
-const authenticateJWT = require('../middleware/authenticateJwt')
-const { createToken } = require('../middleware/JWT')
+// const authenticateJWT = require('../middleware/authenticateJwt')
+// const { createToken } = require('../middleware/JWT')
 
 
 
-router.post("/user-login", login)
-router.post("/signup", signup)
+// router.post("/user-login", login)
+// router.post("/signup", signup)
 
 // router.get('/auth/google',
 //   passport.authenticate('google', { scope: ['profile', 'email'] }));
@@ -24,12 +24,12 @@ router.post("/signup", signup)
 //     res.redirect('http://localhost:3004/profile');
 //   });
  
-  router.get("/user",authenticateJWT, oauthSuccess)
+//   router.get("/user",authenticateJWT, oauthSuccess)
 
-router.post('/add-address',authenticateJWT, addAddress)
-router.get('/get-address',authenticateJWT,  getAddress)
-router.post('/place-order',authenticateJWT,  placeOrder)
-router.get('/my-orders',authenticateJWT,  getUserOrders)
+// router.post('/add-address',authenticateJWT, addAddress)
+// router.get('/get-address',authenticateJWT,  getAddress)
+// router.post('/place-order',authenticateJWT,  placeOrder)
+// router.get('/my-orders',authenticateJWT,  getUserOrders)
 
 
 module.exports = router
