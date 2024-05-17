@@ -1,5 +1,5 @@
 const router = require('express').Router()
-// const {login, signup, placeOrder, addAddress, getAddress, getUserOrders, oauthSuccess}  = require('../controllers/UserController')
+const {login, signup, placeOrder, addAddress, getAddress, getUserOrders, oauthSuccess}  = require('../controllers/UserController')
 // const passport = require('passport')
 // require('../Strategies/JwtStragegy')
 // require('../Strategies/GoogleStrategy')
@@ -9,8 +9,8 @@ const router = require('express').Router()
 
 
 
-// router.post("/user-login", login)
-// router.post("/signup", signup)
+router.post("/user-login", login)
+router.post("/signup", signup)
 
 // router.get('/auth/google',
 //   passport.authenticate('google', { scope: ['profile', 'email'] }));
