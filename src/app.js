@@ -17,7 +17,7 @@ app.use("/public/uploads",express.static('public/uploads'))
 
 app.use(cors(
     {
-    origin:[ 'https://food-delivery-one-psi.vercel.app/'],
+    origin:[ 'https://food-delivery-one-psi.vercel.app'],
     methods:['POST','GET','PUT','DELETE'],
     credentials:true
 }
