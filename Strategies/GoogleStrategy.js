@@ -23,11 +23,11 @@ passport.use(new GoogleStrategy({
                email : profile._json.email,
                img : profile._json.picture
            })
-        //    const accessToken =  createToken(newUser)
+   
            return cb(null, newUser)
        }
        else{
-        //    const accessToken =  createToken(User)
+ 
            return cb(null, user)
        }  
        } catch (error) {

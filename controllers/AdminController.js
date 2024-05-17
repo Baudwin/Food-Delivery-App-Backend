@@ -4,7 +4,7 @@ const Order = require('../models/OrderModel')
 const Category = require('../models/CategoryModel')
 const { createToken } = require('../middleware/JWT')
 const bcrypt = require('bcrypt')
-const cloudinaryUploadd = require('../cloudinaryConfig')
+const { cloudinaryUpload } = require("../cloudinaryConfig")
 
 module.exports = {
 
@@ -68,7 +68,7 @@ if (!itemName || !price || !category) {
 }
 
 try {
-    const uploadedResponse = await cloudinaryUploadd(req.file.path)
+    const uploadedResponse = await cloudinaryUpload(req.file.path)
     imageURL = uploadedResponse.secure_url
 
 const newItem = await Item.create({
@@ -123,7 +123,7 @@ deleteItem: async(req,res)=>{
         res.json({msg:"An error occured"})
     }
 }, 
-
+ 
 
 getOrders:async(req,res)=>{
     try {
