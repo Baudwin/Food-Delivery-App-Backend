@@ -4,8 +4,8 @@ const {login, signup, placeOrder, addAddress, getAddress, getUserOrders, oauthSu
 // require('../Strategies/JwtStrategy')
 // require('../Strategies/GoogleStrategy')
 
-const authenticateJWT = require('../middleware/authenticateJwt')
-const { createToken } = require('../middleware/JWT')
+// const authenticateJWT = require('../middleware/authenticateJwt')
+// const { createToken } = require('../middleware/JWT')
 
 
 router.post("/user-login", login)
@@ -27,11 +27,11 @@ router.post("/signup", signup)
 
 
  
-router.get("/user",authenticateJWT, oauthSuccess)
-router.post('/add-address',authenticateJWT, addAddress)
-router.get('/get-address',authenticateJWT,  getAddress)
-router.post('/place-order',authenticateJWT,  placeOrder)
-router.get('/my-orders',authenticateJWT,  getUserOrders)
+// router.get("/user",authenticateJWT, oauthSuccess)
+// router.post('/add-address',authenticateJWT, addAddress)
+// router.get('/get-address',authenticateJWT,  getAddress)
+// router.post('/place-order',authenticateJWT,  placeOrder)
+// router.get('/my-orders',authenticateJWT,  getUserOrders)
 
 
 module.exports = router
