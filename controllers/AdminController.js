@@ -4,7 +4,7 @@ const Order = require('../models/OrderModel')
 const Category = require('../models/CategoryModel')
 const { createToken } = require('../middleware/JWT')
 const bcrypt = require('bcrypt')
-const cloudinaryUpload = require("../cloudinaryConfig")
+// const cloudinaryUpload = require("../cloudinaryConfig")
 
 module.exports = {
 
@@ -61,32 +61,32 @@ module.exports = {
         }
     },
 
-addItems: async(req,res)=>{
-const {itemName, price, category} = req.body 
-if (!itemName || !price || !category) {
-   return res.status(400).json({msg:"All fields must be provided"})
-}
+// addItems: async(req,res)=>{
+// const {itemName, price, category} = req.body 
+// if (!itemName || !price || !category) {
+//    return res.status(400).json({msg:"All fields must be provided"})
+// }
 
-try {
-    const uploadedResponse = await cloudinaryUpload(req.file.path)
-    imageURL = uploadedResponse.secure_url
+// try {
+//     const uploadedResponse = await cloudinaryUpload(req.file.path)
+//     imageURL = uploadedResponse.secure_url
 
-const newItem = await Item.create({
-    itemName,
-    price, 
-    img:{url:imageURL, name:req.file.originalname},
-    category
-    })  
-    console.log(newItem)
-res.status(200).json({msg:"Item added successfully"})
-}
- catch (error) {
-   res.status(400).json({msg:error.message}) 
-   console.log(error)
-} 
+// const newItem = await Item.create({
+//     itemName,
+//     price, 
+//     img:{url:imageURL, name:req.file.originalname},
+//     category
+//     })  
+//     console.log(newItem)
+// res.status(200).json({msg:"Item added successfully"})
+// }
+//  catch (error) {
+//    res.status(400).json({msg:error.message}) 
+//    console.log(error)
+// } 
 
 
-},
+// },
 
 // GET All ITEMs
 getItems: async(req,res)=>{
