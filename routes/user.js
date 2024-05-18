@@ -1,37 +1,37 @@
 const router = require('express').Router()
-// const {login, signup, placeOrder, addAddress, getAddress, getUserOrders, oauthSuccess}  = require('../controllers/UserController')
-// const passport = require('passport')
-// require('../Strategies/JwtStrategy')
-// require('../Strategies/GoogleStrategy')
+const {login, signup, placeOrder, addAddress, getAddress, getUserOrders, oauthSuccess}  = require('../controllers/UserController')
+const passport = require('passport')
+require('../Strategies/JwtStrategy')
+require('../Strategies/GoogleStrategy')
 
-// const authenticateJWT = require('../middleware/authenticateJwt')
-// const { createToken } = require('../middleware/JWT')
-
-
-// router.post("/user-login", login)
-// router.post("/signup", signup)
+const authenticateJWT = require('../middleware/authenticateJwt')
+const { createToken } = require('../middleware/JWT')
 
 
+router.post("/user-login", login)
+router.post("/signup", signup)
 
-// router.get('/auth/google',
-//   passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 
-// router.get('/auth/google/callback', passport.authenticate('google', { session: false}),
-//   (req, res)=> {
+router.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-// const token = createToken(req.user)
-//     res.cookie('x-auth-cookie', token);
-//     res.redirect('https://food-delivery-one-psi.vercel.app/profile');
-//   });
+
+router.get('/auth/google/callback', passport.authenticate('google', { session: false}),
+  (req, res)=> {
+
+const token = createToken(req.user)
+    res.cookie('x-auth-cookie', token);
+    res.redirect('https://food-delivery-one-psi.vercel.app/profile');
+  });
 
 
  
-// router.get("/user",authenticateJWT, oauthSuccess)
-// router.post('/add-address',authenticateJWT, addAddress)
-// router.get('/get-address',authenticateJWT,  getAddress)
-// router.post('/place-order',authenticateJWT,  placeOrder)
-// router.get('/my-orders',authenticateJWT,  getUserOrders)
+router.get("/user",authenticateJWT, oauthSuccess)
+router.post('/add-address',authenticateJWT, addAddress)
+router.get('/get-address',authenticateJWT,  getAddress)
+router.post('/place-order',authenticateJWT,  placeOrder)
+router.get('/my-orders',authenticateJWT,  getUserOrders)
 
 
 module.exports = router
