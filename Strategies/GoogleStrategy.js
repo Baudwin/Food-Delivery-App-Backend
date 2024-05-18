@@ -7,8 +7,11 @@ const User = require('../models/UserModel');
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "/auth/google/callback",
+    callbackURL: process.env.NODE_ENV === 'production' 
+    ? 'https://food-delivery-app-backend-xi.vercel.app/auth/google/callback' 
+    : 'http://localhost:3005/auth/google/callback',
     session:false,
+     proxy: true,
   },
  async function(accessToken, refreshToken, profile, cb) {
 
