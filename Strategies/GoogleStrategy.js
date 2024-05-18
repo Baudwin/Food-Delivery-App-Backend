@@ -9,7 +9,6 @@ passport.use(new GoogleStrategy({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "/auth/google/callback",
     session:false,
-     proxy: true,
   },
  async function(accessToken, refreshToken, profile, cb) {
 
