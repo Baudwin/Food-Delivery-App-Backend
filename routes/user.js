@@ -6,7 +6,7 @@ require('../Strategies/GoogleStrategy')
 
 const authenticateJWT = require('../middleware/authenticateJwt')
 const { createToken } = require('../middleware/JWT')
-
+const isProduction = process.env.NODE_ENV === 'production';
 
 router.post("/user-login", login)
 router.post("/signup", signup)
@@ -21,8 +21,14 @@ router.get('/auth/google/callback', passport.authenticate('google', { session: f
   (req, res)=> {
 
 const token = createToken(req.user)
-    res.cookie('x-auth-cookie', token, process.env.NODE_ENV === 'production'  && { secure: true, sameSite: 'None' });
-    res.redirect( process.env.NODE_ENV === 'production' ?'https://food-delivery-one-psi.vercel.app/profile' : 'http://localhost:3004/profile');
+    res.cookie('x-auth-cookie', token,
+     { 
+      secure: isProduction, 
+      sameSite: isProduction &&'None',
+      path:'/',
+      domain : isProduction?'food-delivery-one-psi.vercel.app': 'localhost'
+    });
+    res.redirect( isProduction ?'https://food-delivery-one-psi.vercel.app/profile' : 'http://localhost:3004/profile');
   });
 
 
