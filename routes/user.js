@@ -23,10 +23,10 @@ router.get('/auth/google/callback', passport.authenticate('google', { session: f
 const token = createToken(req.user)
     res.cookie('x-auth-cookie', token,
      { 
-      secure: isProduction, 
-      sameSite: isProduction &&'None',
+      secure: isProduction && true, 
+      sameSite: isProduction ? 'None' : 'Lax',
       path:'/',
-      domain : isProduction?'food-delivery-one-psi.vercel.app': 'localhost'
+      domain : isProduction ? 'food-delivery-one-psi.vercel.app' : 'localhost'
     });
     res.redirect( isProduction ?'https://food-delivery-one-psi.vercel.app/profile' : 'http://localhost:3004/profile');
   });
