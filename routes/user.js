@@ -24,8 +24,8 @@ const token = createToken(req.user)
     res.cookie('x-auth-cookie', token,
      { 
       httpOnly:false,
-      secure: isProduction, 
-      // sameSite: isProduction ? 'None' : 'Lax',
+      // secure: isProduction, 
+      sameSite: isProduction ? 'None' : 'Lax',
       // path:'/',
       domain : isProduction ? 'food-delivery-one-psi.vercel.app' : 'localhost'
     });
