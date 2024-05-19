@@ -25,8 +25,8 @@ const token = createToken(req.user)
      { 
       httpOnly:false,
       secure: isProduction, 
-      sameSite: isProduction ? 'None' : 'Lax',
-      path:'/',
+      // sameSite: isProduction ? 'None' : 'Lax',
+      // path:'/',
       domain : isProduction ? 'food-delivery-one-psi.vercel.app' : 'localhost'
     });
     res.redirect( isProduction ?'https://food-delivery-one-psi.vercel.app/profile' : 'http://localhost:3004/profile');
