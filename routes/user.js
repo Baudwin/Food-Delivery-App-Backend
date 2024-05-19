@@ -21,8 +21,8 @@ router.get('/auth/google/callback', passport.authenticate('google', { session: f
   (req, res)=> {
 
 const token = createToken(req.user)
-    res.cookie('x-auth-cookie', token, process.env.NODE_ENV === 'production' ? { secure: true, sameSite: 'None' } : null);
-    res.redirect('https://food-delivery-one-psi.vercel.app/profile');
+    res.cookie('x-auth-cookie', token, process.env.NODE_ENV === 'production' ? { secure: true, sameSite: 'None', httpOnly:true } : null);
+    res.redirect( process.env.NODE_ENV === 'production' ?'https://food-delivery-one-psi.vercel.app/profile' : 'http://localhost:3004/profile');
   });
 
 
