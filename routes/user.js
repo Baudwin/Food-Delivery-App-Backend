@@ -25,7 +25,7 @@ const token = createToken(req.user)
      { 
       httpOnly:false,
       // secure: isProduction, 
-      sameSite: isProduction ? 'None' : 'Lax',
+      // sameSite: isProduction ? 'None' : 'Lax',
       // path:'/',
       domain : isProduction ? 'food-delivery-one-psi.vercel.app' : 'localhost'
     });
