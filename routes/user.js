@@ -23,7 +23,7 @@ router.get('/auth/google/callback', passport.authenticate('google', { session: f
 const token = createToken(req.user)
     res.cookie('x-auth-cookie', token,
      { 
-      httpOnly:false,
+      httpOnly:isProduction,
       // secure: isProduction, 
       // sameSite: isProduction ? 'None' : 'Lax',
       // path:'/',
